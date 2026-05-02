@@ -1,0 +1,31 @@
+launch:
+  - node:
+      pkg: "turtlesim"
+      exec: "turtlesim_node"
+      name: "sim"
+  - node:
+      pkg: "my_tf2"
+      exec: "turtle_tf2_broadcaster"
+      name: "broadcaster1"
+      param:
+      - name: "turtle_name"
+        value: "turtle1"
+
+  - arg:
+      name: "target_frame"
+      default: "turtle1"
+      description: "Target frame name."
+  - node:
+      pkg: "my_tf2"
+      exec: "turtle_tf2_broadcaster"
+      name: "broadcaster2"
+      param:
+      - name: "turtle_name"
+        value: "turtle2"
+  - node:
+      pkg: "my_tf2"
+      exec: "turtle_tf2_listener"
+      name: "listener"
+      param:
+      - name: "target_frame"
+        value: "$(var target_frame)"
