@@ -1,152 +1,225 @@
-# Cheatsheet for VIM mode:
+# VIM Cheatsheet
 
-## INTRODUCTION
-There are 4 main modes:
-- Insert: typing. Replace: Overwrites existing characters/words as you type.
-- Visual: selecting specific text areas to perform action, e.g copy, delete.
-  - Visual_line:
-  - Visual_block:
-- Normal: default mode for navigation and text manipulate command. All operators happen in here.
-- Command: typing : , a specific command bbar opens at tthe top of editor 
-At the bottom right corner, you will see the mode, and the row:column.
-If you toggle the relative line in the Insert mode, it will show the absolute line, while in the normal mode, it will show the relative line.
-----------------------------------------------------------------------------
-Syntax of VIM = Verb + Noun, e.g: delete 2 words = d2w:              
-- Verb= Operators (d= delete, v = visual select, y= copy).
-- Noun: 
-  - Motion: (h,j,kl, w= move word, b: move back)
-  - Text Object: iw= in word, aw=around word, sw=surround word.
-- Repeat: (, or ; to repeat motion forward,backward, .: to repeat action.)
-----------------------------------------------------------------------------
+## Introduction
 
-## 1. MODE switching
-	- ESC: go to normal mode.
-	- v/V: go to visual mode for selecting char/line.
-  - i,a: insert/append at the cursor. 
-  - I/A: insert/append at the begining of the line.
-  - o/O: insert a new line after/before the current line
+VIM has 4 main modes:
+- **Insert**: Typing mode. Replace mode overwrites existing characters/words.
+- **Visual**: Select specific text areas to perform actions (copy, delete, etc.)
+- **Normal**: Default mode for navigation and text manipulation. All operators happen here.
+- **Command**: Type `:` to open a command bar at the top of the editor.
 
-## 2. Operators: 
-**Actions happen immediately without waiting. Can always combine with {num} in front.**
-- x/X: delete/backspace char
-- s: substitute (delete the char and enter the INSERT mode).
-- r/R: replace 1 char/ replace until you ESC.
-- p/P: paste/ Paste before
-- u/Ctrl+r: Undo/ Redo
-- U: undo every thing you make to the current line.
-- J: join the current line and the below line.
-- ~: Toggle case uppper/lower of char
+**UI Info**: Mode and row:column position shown at bottom right. Relative line numbers toggle between Insert and Normal modes.
 
-**An operator is any command that waits for a NOUN (motion or text object) to complete the action.**
-- v: select motion or text_objects.
-- d: delete + (WHAT).
-- c: change (delete and enter the INSERT mode)+ (WHAT)
-- y: copy + (WHAT)
-- gu,gU,g~: lower case/ upper case/ toggle case.
-- <, >, =: indent left/right/ auto indent+ (WHAT). Useful for code block indentation.
-- gc: comment the code.
-- cx: swap lines. Eg. at line 1, type cxx, then move to line 10, type ., it will swap line 1 and 10.
- **when double the operators, it works for the whole line. E.g dd,cc,yy,<<,>>,==,guu,gUU, gcc**
-E.g: =i{: fix the indent inside the code block { }.
+**VIM Syntax = Verb + Noun** (e.g., `d2w` = delete 2 words)
+- **Verb**: Operators (`d`=delete, `v`=visual select, `y`=copy)
+- **Noun**: Motion or Text Object
+  - Motion: `h,j,k,l` (move), `w` (word), `b` (back)
+  - Text Object: `iw` (inner word), `aw` (around word)
+- **Repeat**: `,` or `;` to repeat motion forward/backward, `.` to repeat action
 
-**Mode change is special type of operators, it enter the mode of the selection motion. You can do . to repeat mode change**
-Examples:
-- i: change to insert mode, type something, then . it will repeat what you typed at the cursor.
-- V: selection line.
-- v{motion}: select motion or text_objects.
+---
 
-## 3. Motion:
-**Motion defines the range of text or movement. When use alone, they move the cursor. When combine with Operators, they are the range of text to apply.**
-- **Alone motion**
-	- {num}h,j,k,l (char level): move {num} char (left/down/up/right).
-	- {num}w/e/b/ge (word level): move {num} word (next begin of word/ next end of word/ go back begin word/ go back end of word).
-	- 0/^/$/g_ (current line level): move to (begining of line/ first char of line/ end of line/ last non-blank char of line).
-	- gg/G/{num}G: (go to line) first line/last line/go to line {num}.
-	- */#: search forward/backward for the word under cursor.
-	- [[ or {/ ]] or }: jump forward/backward to the next empty line (paragraph, block).
-	- H/M/L (global leave): Jump to (High/Midle/Low) of the visible screen.
-	
-- **Motion with pattern**.
-	- fc/Fc: find char c forward/backward.
-	- tf/Tc: find untill char c forward/backward.
-	- ,/;: repeat the motion for fc/Fc,tc/Tc.
-	- /{pattern}: search forward pattern. Eg d/hello: mean delete forward until the word hello.
-	- ?{pattern}: searach backward pattern. eg: d?777: delete backward until the word 777.
-	- %: jump to the matching bracket (),[],{}.
-	- n/N: next/previous search result.
+## 1. Mode Switching
 
-## 4. Text Objects:
-**Text objects are used only with operators: d,c,y or in visual mode, regardless of where the cursors is inside them.**
-**Text objects= adverb + noun**
-- Adverb: i/a/s: Inner/Around/Surround.
-- Noun:
-  - w/s/t/p: word, sentence, tag, paragraph.
-  - brackets: (,{,[,<, or >,],},).
-  - quotes: ",',
-Examples:
-- di(: delete anything inside the bracket.
-- ya": copy around "..." (include the "").
-- cs([: change the surround ( current text) to [current text].
-- y-s-i-w-*: add surround the current word with *.
-- y-s-4-w-(: add surround 4 words a bracket. If use (, it will add a space (_xxx_). If use ), it tights (xxx).
-- you can use v{motion}/{text_objects} to select object first then apply action, but it is faster than just use the action directly. The good default is `ci(` just to change whatever inside the bracklet.
+| Command | Description |
+|---------|-------------|
+| `ESC` | Go to Normal mode |
+| `v/V` | Go to Visual mode (select char/line) |
+| `i/a` | Insert/append at cursor |
+| `I/A` | Insert/append at beginning/end of line |
+| `o/O` | Insert new line after/before current line |
 
+## 2. Operators
 
+### Immediate Actions (no motion needed)
 
-## 5. NORMAL mode:
-  ### 5.1 Move Vertically
-  - Move cursor
-    - `Ctrl+F/B` move cursor forward, backward fullscreen.
-    - `Ctrl+U/D` move cursor up/down half screen.
-    - `Ctrl+o/i`: move forward/backward previous cursor.
-  - Scrolling (leave cursor in place):
-    - z+(t/z/b): scroll to top/middle/bottom.
-    - Ctrl+E/Y: scroll 1 line up/down.
+| Command | Description |
+|---------|-------------|
+| `x/X` | Delete/backspace character |
+| `s` | Substitute (delete char, enter Insert mode) |
+| `r/R` | Replace 1 char / replace mode until ESC |
+| `p/P` | Paste after/before cursor |
+| `u/Ctrl+r` | Undo/Redo |
+| `U` | Undo all changes to current line |
+| `J` | Join current line with line below |
+| `~` | Toggle case (upper/lower) of character |
 
-  ### 5.2 Fold text:
-  - zc/zo: fold/unfold the content of the function
-  - zM/zO: fold/unfold all.
-  - zj/jk: move down/up to next fold.
-  - zd/zE: delete current fold/all folds.
+### Motion/Text Object Operators (wait for noun)
 
-  ### 5.3 Search text:
-  - */#: search forward/backward for the word under cursor.
-  - /,?: search forward/backward for the pattern. E.g: /hello: search forward for the word hello. 
-  - g /: search pattern for whole project. 
-  - gs/gS: search symbols (function name) in current file/entire project.
-  - n/N to move to next/prev search result.
-  
-  ### 5.4 Bookmark:
-  **Bookmark the place you want to visit later**
-  - m+{letter/number}: bookmark the line. e.g ma.
-  - '{letter/number}: go to the line you book, e.g: 'a.
-  - `{letter/number}: go to exactly the cursor position that you bookmarked
-  - gi/go: quickly jump to the previous/next cursor position in the history without bookmark. 
-## 6. VISUAL (SELECT) mode:
-**Visual selection is a type of operator, but it does not edit. You mainly use it for multi-cursors or multi-edit, then you can do c,i,a to enter insert/replace mode.**
-  - ga: add cursor at every match of the current word.
-  - gl/gL: add cursor at the next/previous match with current word.
-  - gI/gA: add the cursor at the first char/the end of every line of the current selection (and enter the INSERT mode).
+| Command | Description |
+|---------|-------------|
+| `v` | Select motion or text objects (visual) |
+| `d/c/y` | Delete/change/copy + motion/text object |
+| `gu/gU/g~` | Lowercase/uppercase/toggle case + motion/text object |
+| `</>/=` | Indent left/right/auto-indent + motion/text object |
+| `gc` | Comment/uncomment code + motion/text object |
+| `cx` | Swap lines (type on line 1, then `.` on target line) |
 
-## 7. Command mode:
-  - Explore command:
-  - :t: open terminal. Cmd+J: open the bottom pannel
-  - :E: open file explore.
+**Note**:
+- Double operators work on whole line**: `dd`, `cc`, `yy`, `<<`, `>>`, `==`, `guu`, `gUU`, `gcc`
+- Mode change is special type of operators, it enter the mode of the selection motion. You can do . to repeat what you edit in the Insert mode.
 
-## 8. Zed features:
-  **Motion**
-  - gd/gD/gI/gy: go to definition/declaration/Implementation/type definition. Good when combine with ctrl+i/o: to return previous position.
-  - <ctrl+w> g d/g D: go to the definition in the split.
-  - g[, g]: go to nex/prev diagonotis error.
-  - g h: show inline error.
-  - g .: open code action menu.
-  - cd: change definition (the name of the function) in all place
-  - [ m, ]m: go to next/prev method.
-  - [ M, ]M: go to next/prev end of method
-  - [/, ]/: go to next/prev comment.
-  
-  **Text Objects: still combine with i/a infront but with extra keywords**
- 	- c: class, definition. Eg. ia: inside a class
-  - f: function. Eg. daf: delete around the function.
-  - a: argument. Eg. aa: an argument of function,
-  - I: Indent. Eg: diI: delete all of the current indent.
+## 3. Motion
+
+**Motion defines cursor movement when use along or text range when combined with operators.**
+
+### Character/Word/Line Level
+
+| Command | Description |
+|---------|-------------|
+| `{num}h/j/k/l` | Move {num} char left/down/up/right |
+| `{num}w/e/b/ge` | Move {num} words (begin/end/back begin/back end) |
+| `0/^/$/ g_` | Move to begin/first char/end/last non-blank of line |
+| `gg/G/{num}G` | Go to first/last/line {num} |
+| `H/M/L` | Jump to top/middle/bottom of visible screen |
+
+### Search-Based Motion
+
+| Command | Description |
+|---------|-------------|
+| `*/#` | Search forward/backward for word under cursor |
+| `f{c}/F{c}` | Find char {c} forward/backward on line |
+| `t{c}/T{c}` | Find until char {c} forward/backward |
+| `;/,` | Repeat last f/F/t/T motion forward/backward |
+| `/{pat}/?{pat}` | Search forward/backward for pattern |
+| `n/N` | Go to next/previous search result |
+
+### Paragraph/Bracket Motion
+
+| Command | Description |
+|---------|-------------|
+| `[[/]]` | Jump backward/forward to next empty line/block |
+| `{/}` | Jump backward/forward to empty line |
+| `%` | Jump to matching bracket: `()`, `[]`, `{}` |
+
+## 4. Text Objects
+
+**Text objects work with operators (d, c, y) or in Visual mode.**
+
+**Format**: `{modifier}{target}` where modifier is `i` (inner), `a` (around), `s` (surround)
+
+| Command | Description |
+|---------|-------------|
+| `iw/aw` | Inner/around word |
+| `is/as` | Inner/around sentence |
+| `it/at` | Inner/around tag |
+| `ip/ap` | Inner/around paragraph |
+| `i(/)` / `a(/)` | Inside/around parentheses |
+| `i{/}` / `a{/}` | Inside/around braces |
+| `i[/]` / `a[/]` | Inside/around brackets |
+| `i</>`  / `a</>` | Inside/around angle brackets |
+| `i"/'` / `a"/'` | Inside/around double/single quotes |
+
+### Text Object Examples
+
+| Command | Description |
+|---------|-------------|
+| `di(/ya"` | Delete inside parens / copy around quotes |
+| `cs([` | Change surrounding `(` to `[` |
+| `ys{motion}*` | Surround motion/selection with `*` |
+| `ci(` | Change (delete & insert) inside parentheses |
+
+## 5. Normal Mode
+
+### 5.1 Move Vertically
+
+| Command | Description |
+|---------|-------------|
+| `Ctrl+f/b` | Move cursor forward/backward full screen |
+| `Ctrl+u/d` | Move cursor up/down half screen |
+| `Ctrl+o/i` | Move to previous/next cursor position (history) |
+
+### 5.2 Scrolling (leave cursor in place)
+
+| Command | Description |
+|---------|-------------|
+| `z t/z/b` | Scroll to top/middle/bottom |
+| `Ctrl+e/y` | Scroll up/down 1 line |
+
+### 5.3 Folding Text
+
+| Command | Description |
+|---------|-------------|
+| `zc/zo` | Fold/unfold content |
+| `zM/zO` | Fold/unfold all |
+| `zj/zk` | Move down/up to next fold |
+| `zd/zE` | Delete current/all folds |
+
+### 5.4 Search Text
+
+| Command | Description |
+|---------|-------------|
+| `*/#` | Search forward/backward for word under cursor |
+| `//? ` | Search forward/backward for pattern |
+| `g/` | Search pattern for whole project |
+| `gs/gS` | Search symbols in current file/entire project |
+| `n/N` | Go to next/previous search result |
+
+### 5.5 Bookmarks
+
+| Command | Description |
+|---------|-------------|
+| `m{letter}` | Bookmark current line (e.g., `ma`) |
+| `'{letter}` | Jump to bookmarked line (e.g., `'a`) |
+| `` `{letter} `` | Jump to exact bookmark position (e.g., `` `a ``) |
+| `gi/go` | Jump to previous/next cursor position (history) |
+
+## 6. Visual (Select) Mode
+
+**Used for multi-cursor editing or multi-line operations.**
+
+| Command | Description |
+|---------|-------------|
+| `ga` | Add cursor at every occurrency of current word |
+| `gl/gL` | Add cursor at next/previous occurrency with current word |
+| `gI/gA` | Add cursor at first/end char of every line in selection |
+
+## 7. Command Mode
+
+**Type `:` to open command bar at top of editor**
+
+| Command | Description |
+|---------|-------------|
+| `:t` | Open terminal |
+| `Cmd+J` | Open/close bottom panel |
+| `:E` | Open file explorer |
+
+## 8. Zed Features
+
+**Editor-specific commands**
+
+### Code Navigation
+
+| Command | Description |
+|---------|-------------|
+| `gd/gD/gI/gy` | Go to definition/declaration/implementation/type |
+| `Ctrl+w gd/gD` | Go to definition/declaration in split view |
+| `Ctrl+i/o` | Jump to next/previous position in history |
+
+### Diagnostics & Code Actions
+
+| Command | Description |
+|---------|-------------|
+| `g[/g]` | Go to next/previous diagnostic error |
+| `gh` | Show inline error |
+| `g.` | Open code action menu |
+| `cd` | Rename definition (changes name in all places) |
+
+### Method & Comment Navigation
+
+| Command | Description |
+|---------|-------------|
+| `[m/]m` | Go to next/previous method |
+| `[M/]M` | Go to next/previous end of method |
+| `[//]/` | Go to next/previous comment |
+
+### Extended Text Objects (Zed-specific)
+
+**Combine with i/a modifiers (e.g., `dic` = delete inside class)**
+
+| Command | Description |
+|---------|-------------|
+| `c` | Class or definition |
+| `f` | Function |
+| `a` | Argument |
+| `I` | Indent level |
