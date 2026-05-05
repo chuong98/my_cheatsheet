@@ -45,6 +45,7 @@ Syntax of VIM = Verb + Noun, e.g: delete 2 words = d2w:
 - gu,gU,g~: lower case/ upper case/ toggle case.
 - <, >, =: indent left/right/ auto indent+ (WHAT). Useful for code block indentation.
 - gc: comment the code.
+- cx: swap lines. Eg. at line 1, type cxx, then move to line 10, type ., it will swap line 1 and 10.
  **when double the operators, it works for the whole line. E.g dd,cc,yy,<<,>>,==,guu,gUU, gcc**
 E.g: =i{: fix the indent inside the code block { }.
 
@@ -115,6 +116,12 @@ Examples:
   - gs/gS: search symbols (function name) in current file/entire project.
   - n/N to move to next/prev search result.
   
+  ### 5.4 Bookmark:
+  **Bookmark the place you want to visit later**
+  - m+{letter/number}: bookmark the line. e.g ma.
+  - '{letter/number}: go to the line you book, e.g: 'a.
+  - `{letter/number}: go to exactly the cursor position that you bookmarked
+  - gi/go: quickly jump to the previous/next cursor position in the history without bookmark. 
 ## 6. VISUAL (SELECT) mode:
 **Visual selection is a type of operator, but it does not edit. You mainly use it for multi-cursors or multi-edit, then you can do c,i,a to enter insert/replace mode.**
   - ga: add cursor at every match of the current word.
