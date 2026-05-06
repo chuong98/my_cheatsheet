@@ -61,7 +61,7 @@ VIM has 4 main modes:
 
 ## 3. Motion
 
-**Motion defines cursor movement when use along or text range when combined with operators.**
+**Motion defines cursor movement when use alone or text range when combined with operators.**
 
 ### Character/Word/Line Level
 
@@ -114,7 +114,8 @@ VIM has 4 main modes:
 
 | Command | Description |
 |---------|-------------|
-| `di(/ya"` | Delete inside parens / copy around quotes |
+| `di("` | Delete inside parens |
+| `ya"` |  Copy around quotes |
 | `cs([` | Change surrounding `(` to `[` |
 | `ys{motion}*` | Surround motion/selection with `*` |
 | `ci(` | Change (delete & insert) inside parentheses |
