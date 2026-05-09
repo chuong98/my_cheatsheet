@@ -143,6 +143,8 @@ VIM has 4 main modes:
 |---------|-------------|
 | `zc/zo` | Fold/unfold content |
 | `zM/zO` | Fold/unfold all |
+| `zf`    | Fold the current function |
+| `zr`    | Fold recursively (all) function |
 | `zj/zk` | Move down/up to next fold |
 | `zd/zE` | Delete current/all folds |
 
